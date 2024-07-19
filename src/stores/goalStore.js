@@ -6,6 +6,7 @@ import { defineStore } from "pinia";
 
 // Import useUserStore to access the currently logged-in user
 import { useUserStore } from "./user";
+import BreakRule from "@/components/BreakRule.vue";
 
 
 export const useGoalStore = defineStore("goalStore", () => {
@@ -13,23 +14,23 @@ export const useGoalStore = defineStore("goalStore", () => {
   const goals = reactive([
     {
       id: 1, // Unique identifier for the goal
-      title: "Buy ingredients to make Tacos", // Title of the goal
+      title: "Make a PowerPoint Presentation for This App", // Title of the goal
       description: {
         title:
-          "Go to the latin shop next to my house to buy groceries for this friday's dinner with friends", // Detailed description of the goal
+          "Start by reviewing the information in the project", // Detailed description of the goal
         timeToBeCompleted: "2 hours", // Estimated time to complete the task
-        extraInfoRequired: ["Guacamole", "Nachos"], // Additional information required for the task
+        extraInfoRequired: ["Slide for functions", "Slide for challenges"], // Additional information required for the task
       },
       isCompleted: true, // Boolean indicating if the task is completed
       userId: 1, // Link task to user with id 1
     },
     {
       id: 2, // Unique identifier for the task
-      title: "Clean out House", // Title of the task
+      title: "Book the Trip to Croatia in August", // Title of the task
       description: {
-        title: "Clean House by friday for friends dinner", // Detailed description of the task
+        title: "Reserach the cities", // Detailed description of the task
         timeToBeCompleted: "1 hour", // Estimated time to complete the task
-        extraInfoRequired: ["swap", "mop", "dust"], // Additional information required for the task
+        extraInfoRequired: ["Sightseeing", "Roadtrips", "Festivals"], // Additional information required for the task
       },
       isCompleted: false, // Boolean indicating if the task is completed
       userId: 2, // Link task to user with id 2

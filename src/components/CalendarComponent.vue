@@ -1,7 +1,5 @@
 <script setup>
 import { ref, defineProps } from 'vue'
-import IconArrowLeft from './IconArrowLeft.vue'
-import IconArrowRight from './IconArrowRight.vue'
 
 const props = defineProps({
     year: {
