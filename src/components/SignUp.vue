@@ -1,76 +1,3 @@
-<!--
-This file defines a Vue.js component for the sign-up process in a to-do application.
-By building this component, we will achieve a user interface that allows users to register by providing their email and password, with state management handled by Pinia.js.
--->
-
-<template>
-  <PageHeader class="page-header" />
-  <div class="container">
-    <div class="header">
-      <div class="header-description">
-        <h3 class="header-title">Register to The Goals App</h3>
-        <p class="header-subtitle">Start organizing your goals!</p>
-      </div>
-    </div>
-
-    <form @submit.prevent="signUp" class="form-sign-in">
-      <div class="form">
-        <!-- Email Input Field -->
-        <div class="form-input">
-          <label class="input-field-label">E-mail</label>
-          <input type="email" class="input-field" placeholder="example@gmail.com" id="email" v-model="formState.email"
-            required />
-        </div>
-
-
-        <!-- Password Input Field -->
-        <div class="form-input">
-          <label class="input-field-label">Password</label>
-          <input type="password" class="input-field" placeholder="**********" id="password" v-model="formState.password"
-            required />
-        </div>
-
-
-        <!-- Confirm Password Input Field -->
-        <div class="form-input">
-          <label class="input-field-label">Confirm password</label>
-          <input type="password" class="input-field" placeholder="**********" id="confirmPassword"
-            v-model="formState.confirmPassword" required />
-        </div>
-
-
-
-        <p>
-          Have an account?
-          <!-- PersonalRouter component for navigation -->
-          <PersonalRouter :route="goToRoute" :buttonText="buttonText" class="sign-up-link" />
-        </p>
-        <br />
-        <fieldset>
-          <label class="horizontal-label terms">
-            <span>
-              <input type="checkbox" name="accepts-terms" v-model="acceptsTerms" />
-            </span>
-
-            <span>
-              Creating an account means you're okay with our
-              <RouterLink to="/docs/terms-of-service">Terms of Service</RouterLink>,
-              <RouterLink to="/docs/privacy-policy">Privacy Policy</RouterLink>, and our default
-              <RouterLink to="/settings/notifications">Notification Settings</RouterLink>.
-            </span>
-          </label>
-        </fieldset>
-        <button type="submit" class="button-primary">Create new User</button>
-      </div>
-    </form>
-
-    <!-- Display error message if any -->
-    <div v-show="formState.errorMsg">{{ formState.errorMsg }}</div>
-  </div>
-
-  <PageFooter class="page-footer" />
-</template>
-
 <script setup>
 // ------------------------------------------------------------------------
 // Import Block
@@ -149,6 +76,81 @@ const signUp = () => {
   - If the passwords do not match, it sets an error message and clears it after 2 seconds.
   */
 </script>
+
+
+<!--
+This file defines a Vue.js component for the sign-up process in a to-do application.
+By building this component, we will achieve a user interface that allows users to register by providing their email and password, with state management handled by Pinia.js.
+-->
+
+<template>
+  <PageHeader class="page-header" />
+  <div class="container">
+    <div class="header">
+      <div class="header-description">
+        <h3 class="header-title">Register to The Goals App</h3>
+        <p class="header-subtitle">Start organizing your goals!</p>
+      </div>
+    </div>
+
+    <form @submit.prevent="signUp" class="form-sign-in">
+      <div class="form">
+        <!-- Email Input Field -->
+        <div class="form-input">
+          <label class="input-field-label">E-mail</label>
+          <input type="email" class="input-field" placeholder="example@gmail.com" id="email" v-model="formState.email"
+            required />
+        </div>
+
+
+        <!-- Password Input Field -->
+        <div class="form-input">
+          <label class="input-field-label">Password</label>
+          <input type="password" class="input-field" placeholder="**********" id="password" v-model="formState.password"
+            required />
+        </div>
+
+
+        <!-- Confirm Password Input Field -->
+        <div class="form-input">
+          <label class="input-field-label">Confirm password</label>
+          <input type="password" class="input-field" placeholder="**********" id="confirmPassword"
+            v-model="formState.confirmPassword" required />
+        </div>
+
+
+
+        <p>
+          Have an account?
+          <!-- PersonalRouter component for navigation -->
+          <PersonalRouter :route="goToRoute" :buttonText="buttonText" class="sign-up-link" />
+        </p>
+        <br />
+        <fieldset>
+          <label class="horizontal-label terms">
+            <span>
+              <input type="checkbox" name="accepts-terms" required v-model="acceptsTerms" />
+            </span>
+
+            <span>
+              Creating an account means you're okay with our
+              <RouterLink to="/docs/terms-of-service">Terms of Service</RouterLink>,
+              <RouterLink to="/docs/privacy-policy">Privacy Policy</RouterLink>, and our default
+              <RouterLink to="/settings/notifications">Notification Settings</RouterLink>.
+            </span>
+          </label>
+        </fieldset>
+        <button type="submit" class="button-primary">Create new User</button>
+      </div>
+    </form>
+
+    <!-- Display error message if any -->
+    <div v-show="formState.errorMsg">{{ formState.errorMsg }}</div>
+  </div>
+
+  <PageFooter class="page-footer" />
+</template>
+
 
 <style>
 label,

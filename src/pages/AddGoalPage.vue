@@ -10,7 +10,6 @@ import { useUserStore } from "../stores/user";
 const goalStore = useGoalStore();
 // Use the user store
 const userStore = useUserStore();
-const { generateGoalsForCurrentUser } = goalStore; // Destructure addTask function from the task store
 
 
 
@@ -33,7 +32,7 @@ const goalAdded = ref(false); // Reference for tracking if a task has been added
 const handleSubmit = () => {
   const goalTitle = newGoal.title;
   const goalDescription = JSON.parse(JSON.stringify(newGoal.description)); // // Create a deep copy of the new task description to avoid reactivity issues
-  generateGoalsForCurrentUser(goalTitle, goalDescription);
+  goalStore.generateGoalForCurrentUser(goalTitle, goalDescription);
   // Use generateTaskForCurrentUser to add the new task for the logged-in user
   goalAdded.value = true;
 };
@@ -104,27 +103,14 @@ const startNewGoal = () => {
           <input v-model="newGoal.title" type="text" id="title" required />
         </div>
         <div>
-          <label for="descriptionTitle">Description Title:</label>
-          <input v-model="newGoal.description.title" type="text" id="descriptionTitle" required />
+          <label for="descriptionTitle">Description:</label>
+          <textarea v-model="newGoal.description.title" id="descriptionTitle" required />
         </div>
         <div>
           <label for="timeToBeCompleted">Time to be Completed:</label>
           <input v-model="newGoal.description.timeToBeCompleted" type="text" id="timeToBeCompleted" required />
         </div>
-        <div>
-          <label for="extraInfo">Extra Info Required:</label>
-          <input v-model="newExtraInfo" type="text" id="extraInfo" />
-          <button type="button" @click="addExtraInfo">Add Info</button>
-          <ul>
-            <li v-for="(info, index) in newGoal.description.extraInfoRequired" :key="index">
-              {{ info }}
-              <button type="button" @click="removeExtraInfo(index)">
-                Remove
-              </button>
-            </li>
-          </ul>
-        </div>
-        <button type="submit">Add Goal</button>
+        <button type="submit" @click="generateGoalForCurrentUser">Add Goal</button>
       </form>
     </div>
   </div>
