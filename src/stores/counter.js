@@ -12,7 +12,7 @@ import { defineStore } from "pinia";
 // 2ndd. arg === an anoonymous arrow function expression
 // Syntax of arrow funcs:  () => {}
 
-export const useCounterStore = defineStore("counter", () => {
+export const useGoalStore = defineStore("counter", () => {
   // Inside of the arrow function of the store, you can place your reactive datya or your functions to be consumed globally
 
   // Reactive variable thAt stores a number

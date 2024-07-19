@@ -1,82 +1,96 @@
-<!--
-This file defines a Vue.js component for displaying and managing tasks in a to-do application.
-By building this component, we will achieve a user interface that shows a list of all tasks,
-allowing users to mark tasks as completed and delete them, leveraging global state management with Pinia.js.
--->
+<script setup>
+
+import { computed, ref } from "vue";
+
+import { useGoalStore } from "../stores/goalStore";
+
+import { useUserStore } from "../stores/user";
+import CalendarComponent from '@/components/CalendarComponent.vue'
+
+const goalStore = useGoalStore();
+const userStore = useUserStore();
+const { goals, deleteGoal, markGoalCompleted, getGoalsByUserId } = goalStore;
+
+
+const userGoals = computed(() => {
+
+  if (userStore.isLoggedIn && userStore.user) {
+
+    return getGoalsByUserId(userStore.user.id); // If the user is logged in, return the tasks associated with the user's ID
+  }
+  return []; // If the user is not logged in, return an empty array
+});
+
+
+</script>
+
+
 <template>
+  <h4>This Page Displays all goals</h4>
+
   <div class="container">
-    <h2 class="text-center text-white mb-4">Goal List</h2>
 
-    <ul class="list-group">
-      <li v-for="goal in goals" :key="goal.id" class="list-group-item mb-3">
-        <div class="d-flex justify-content-between align-items-center">
-          <div>
-            <h4 class="mb-1">{{ goal.title }}</h4>
-            <p class="mb-1">{{ goal.description.title }}</p>
-            <p class="mb-1"><strong>Time to Complete:</strong> {{ goal.description.timeToBeCompleted }}</p>
-            <ul class="list-unstyled mb-2">
-              <li v-for="(extraInfo, index) in goal.description.extraInfoRequired" :key="index">{{
-                extraInfo }}</li>
-            </ul>
-            <p v-if="goal.isCompleted" class="text-success mb-1">Status: Completed</p>
-            <p v-else class="text-danger mb-1">Status: Incomplete</p>
-          </div>
-
-          <div class="btn-group">
-            <button v-if="!goal.isCompleted" @click="markGoalsCompleted(goal.id)" class="btn btn-success btn-sm">Mark as
-              Completed</button>
-            <button @click="deleteGoal(goal.id)" class="btn btn-danger btn-sm">Delete</button>
-          </div>
-        </div>
+    <!-- Conditional rendering to display user-specific tasks if available, otherwise display all tasks -->
+    <ul v-if="userGoals.length > 0">
+      <!-- v-for directive to iterate over each task in tasks array -->
+      <li v-for="goal in userGoals" v-bind:key="goal.id">
+        <!-- Display the title of the task -->
+        <h5>{{ goal.title }}</h5>
+        <!-- Display the description title of the task -->
+        <h6>{{ goal.description.title }}</h6>
+        <!-- Display the time to be completed of the task -->
+        <h6>{{ goal.description.timeToBeCompleted }}</h6>
+        <!-- Loop through the extraInfoRequired array and render each item in a list item -->
+        <ul>
+          <li v-for="(extraInfo, index) in goal.description.extraInfoRequired" v-bind:key="index">
+            {{ extraInfo }}
+          </li>
+        </ul>
+        <!-- Display whether the task is completed or incomplete -->
+        <h6>{{ goal.isCompleted ? "Completed" : "Incomplete" }}</h6>
+        <!-- Button to mark the task as completed -->
+        <button v-bind:disabled="goal.isCompleted ? true : false" @click="markGoalCompleted(goal.id)">
+          Mark as Completed
+        </button>
+        <!-- Button to delete the task -->
+        <button @click="deleteGoal(goal.id)">Delete Goal</button>
       </li>
     </ul>
-
-    <div v-if="goals.length === 0" class="text-center mt-3">
-      <p>No Goals Found.</p>
-    </div>
+    <!-- Loop through the tasks array and render each task in a list item -->
+    <ul v-else>
+      <!-- v-for directive to iterate over each task in tasks array -->
+      <li v-for="goal in goals" v-bind:key="goal.id">
+        <!-- Display the title of the task -->
+        <h5>{{ goal.title }}</h5>
+        <!-- Display the description title of the task -->
+        <h6>{{ goal.description.title }}</h6>
+        <!-- Display the time to be completed of the task -->
+        <h6>{{ goal.description.timeToBeCompleted }}</h6>
+        <!-- Loop through the extraInfoRequired array and render each item in a list item -->
+        <ul>
+          <li v-for="(extraInfo, index) in goal.description.extraInfoRequired" v-bind:key="index">
+            {{ extraInfo }}
+          </li>
+        </ul>
+        <!-- Display whether the task is completed or incomplete -->
+        <h6>{{ goal.isCompleted ? "Completed" : "Incomplete" }}</h6>
+        <!-- Button to mark the task as completed -->
+        <button v-bind:disabled="goal.isCompleted ? true : false" @click="markGoalCompleted(goal.id)">
+          Mark as Completed
+        </button>
+        <!-- Button to delete the task -->
+        <button @click="deleteGoal(goal.id)">Delete Goal</button>
+      </li>
+    </ul>
   </div>
+  <CalendarComponent class="goal-tools-section" :events="calendarEvents" />
 </template>
 
 
-<script setup>
-// ------------------------------------------------------------------------
-// Import Block
-// ------------------------------------------------------------------------
-
-// Import the useTaskStore function from taskStore to interact with the task store
-import { useGoalStore } from "../stores/goalStore";
-
-// ------------------------------------------------------------------------
-// Store Access Block
-// ------------------------------------------------------------------------
-
-// Use the task store by saving it in a variable
-const goalstore = useGoalStore();
-
-// Destructure all the possible pieces of data that we want out of this
-const { goals, deleteGoal, markGoalCompleted } = goalstore; // Destructure necessary functions and state from the task store
-
-/*
-The useTaskStore function is used to access the task store.
-- Destructure tasks, markTaskCompleted, and deleteTask from the task store.
-- These will be used to interact with the global state of tasks.
-*/
-</script>
-
-<style scoped>
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.btn-group button {
-  margin-right: 10px;
+<style>
+.goal-tools-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 </style>
-
-<!--
-Summary:
-This file implements a Vue.js component that displays a list of tasks from the global state managed by Pinia.js.
-It allows users to mark tasks as completed or delete them. The component leverages Pinia's state management to
-interact with the tasks and provide necessary functionalities.
--->

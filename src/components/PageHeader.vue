@@ -12,7 +12,7 @@ const date = new Date().toLocaleDateString('en-US', {
         <p>{{ date }}</p>
     </Header>
     <header class="page-header">
-        <RouterLink class="semi-discreet-anchor icon-entry" to="/tasks">
+        <RouterLink class="semi-discreet-anchor icon-entry" to="/goals">
             <IconSword size="28" style="color: var(--primary-color-1)" />
             <h2>🎯The Goals App </h2>
         </RouterLink>

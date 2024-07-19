@@ -1,15 +1,8 @@
 <script setup>
-import { computed } from "vue";
-import { useCounterStore } from "../stores/counter";
+import { useGoalStore } from "../stores/counter";
 import BreakRule from '../components/BreakRule.vue'
-// 2nd wa
-// A bit easier because we can store the access of the store inside a variable which we then reference easier (take a look at the example with the vaar name 'countNumber')
-let countStore = useCounterStore();
 
-// -----
-// -----
-// Consuming a piece of state that happens to be a function
-// How do we do it ?
+let countStore = useGoalStore();
 let incrementNumberFunctionFromStore = countStore.increment;
 </script>
 
@@ -17,23 +10,10 @@ let incrementNumberFunctionFromStore = countStore.increment;
 <template v-slot:content>
   <main class="container">
     <h2>👋Welcome to The Goals website </h2>
-    <h3>Here you can set your goals and hopefully and for once,<p style="font-weight: bold;">🎯archive them! </p>
-
-      <br>
-      📝This website helps you with the following:
+    <h3>Here you can set your goals and hopefully and for once,<p style="font-weight: bold;">archive them!🎯 </p>
     </h3>
 
-
-    <ul class="bullet-points">
-      <li>View, add, edit, and delete tasks.</li>
-      <li>Mark tasks as completed or pending.</li>
-      <li>Filter tasks by title.</li>
-      <li>Set a timer to perform a task.</li>
-      <li>Display the tasks in a calendar, and navigate through them.</li>
-      <li>Mobile-first and responsive design.</li>
-    </ul>
     <BreakRule />
-    <button @click="incrementNumberFunctionFromStore">Add +1</button>
     <BreakRule />
 
 
@@ -54,7 +34,7 @@ let incrementNumberFunctionFromStore = countStore.increment;
       <li>Vue 3: the progressive JavaScript framework.</li>
       <li>Vue Router: routing for single-page applications.</li>
       <li>Pinia: state management.</li>
-      <li>Supabase: backend services (user authentication and a database for the tasks).</li>
+      <li>Supabase: backend services (user authentication and a database for the goals).</li>
     </ul>
 
     <BreakRule />
@@ -67,4 +47,83 @@ let incrementNumberFunctionFromStore = countStore.increment;
     </p>
 
   </main>
+  <div class="simple-layout">
+    <section class="section">
+      <header class="section-header">
+        <slot name="header"></slot>
+      </header>
+      <main class="section-content">
+        <slot name="content"></slot>
+      </main>
+    </section>
+    <div class="floating">
+      <slot name="floating"></slot>
+    </div>
+
+  </div>
 </template>
+
+<style>
+.simple-layout {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  --margin-inline: 2rem;
+  --margin-block: 2rem;
+  --section-bg-color: white;
+}
+
+.page-header,
+.page-footer {
+  padding: var(--margin-block) var(--margin-inline);
+
+  align-self: normal;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page-footer {
+  margin-top: auto !important;
+  border-top: 1px solid #ccc;
+}
+
+.section {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: hotpink transparent;
+  background-color: var(--section-bg-color);
+  margin: 0 var(--margin-inline);
+  border-radius: var(--border-radius-small);
+  box-shadow: var(--box-shadow-big);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  /* width: max-content; */
+  margin-bottom: calc(var(--margin-block) / 2);
+}
+
+.section-header,
+.section-content,
+.floating {
+  padding-inline: var(--margin-inline);
+}
+
+.section-header {
+  padding-top: var(--margin-block);
+  position: sticky;
+  top: 0;
+  background-color: var(--section-bg-color);
+  z-index: 1;
+}
+
+.section-content {
+  padding-bottom: var(--margin-block);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+</style>

@@ -1,12 +1,4 @@
-// This file sets up a global state management system for a to-do application using Pinia.js.
-// It defines a centralized store to manage the state of goals across our Vue.js application,
-// allowing us to add, complete, delete, and filter goals by user ID.
 
-// ------------------------------------------------------------------------
-// Import Block
-// ------------------------------------------------------------------------
-
-// Import reactive from Vue to make the goals array reactive
 import { reactive } from "vue";
 
 // Import defineStore from Pinia to define a new store
@@ -15,12 +7,7 @@ import { defineStore } from "pinia";
 // Import useUserStore to access the currently logged-in user
 import { useUserStore } from "./user";
 
-// ------------------------------------------------------------------------
-// Store Definition Block
-// ------------------------------------------------------------------------
 
-// Define a new store named 'useGoalStore' using Pinia
-// Pass 2 args inside defineStore method
 export const useGoalStore = defineStore("goalStore", () => {
   // Initial array of goals using reactive to keep the state reactive
   const goals = reactive([
@@ -49,15 +36,12 @@ export const useGoalStore = defineStore("goalStore", () => {
     },
   ]);
 
-  // ----------------------------------------------------------------------
-  // Function to add a new task
-  // ----------------------------------------------------------------------
 
   /**
    * Adds a new task to the tasks array.
    * @param {Object} goal - The task object to be added.
    */
-  function addgoal(goal) {
+  function addGoal(goal) {
     goals.push(goal); // Push the new task to the tasks array
   }
 
@@ -101,7 +85,7 @@ export const useGoalStore = defineStore("goalStore", () => {
    * Deletes a specific task from the tasks array.
    * @param {number} goalId - The ID of the task to be deleted.
    */
-  function deletegoal(goalId) {
+  function deleteGoal(goalId) {
     // Find the index of the task to be deleted by its ID
     let index = goals.findIndex((goal) => goal.id === goalId);
     if (index !== -1) {

@@ -49,7 +49,7 @@ const router = createRouter({
       component: CompletedGoalsPage, // Component to render
     },
     {
-      path: "/add-goal", // Path for the add goal page
+      path: "/add-goals", // Path for the add goal page
       name: "add new goal page", // Name of the route
       component: AddGoalPage, // Component to render
     },

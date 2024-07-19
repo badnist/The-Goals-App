@@ -19,9 +19,9 @@ It manages user authentication states, displays navigation links conditionally b
           <!-- If the user is logged in, show these links -->
           <RouterLink to="/">Home</RouterLink>
           <RouterLink to="/about">About</RouterLink>
-          <RouterLink to="/all-tasks">All Tasks</RouterLink>
-          <RouterLink to="/completed-tasks">Completed Tasks</RouterLink>
-          <RouterLink to="/add-task">Add New Task</RouterLink>
+          <RouterLink to="/all-goals">All Goals</RouterLink>
+          <RouterLink to="/completed-goals">Completed Goals</RouterLink>
+          <RouterLink to="/add-goals">Add New Goals</RouterLink>
           <button @click="handleSignOut">Sign Out</button>
         </template>
       </nav>

@@ -1,74 +1,18 @@
-<!--
-This file defines a Vue.js component for adding a new task to a to-do application.
-By building this component, we will achieve a user interface that allows users to input details for a new task and add it to the global state managed by Pinia.js.
--->
-
-<template>
-  <div>
-    <h1>Add New Goal</h1>
-    <!-- v-if directive to show success message if taskAdded is true, otherwise show the form -->
-    <div v-if="goalAdded">
-      <p>Yay! New goal created.</p>
-      <button @click="startNewGoal">Start a New Goal</button>
-    </div>
-    <div v-else>
-      <form @submit.prevent="handleSubmit">
-        <div>
-          <label for="title">Title:</label>
-          <input v-model="newGoal.title" type="text" id="title" required />
-        </div>
-        <div>
-          <label for="descriptionTitle">Description Title:</label>
-          <input v-model="newGoal.description.title" type="text" id="descriptionTitle" required />
-        </div>
-        <div>
-          <label for="timeToBeCompleted">Time to be Completed:</label>
-          <input v-model="newGoal.description.timeToBeCompleted" type="text" id="timeToBeCompleted" required />
-        </div>
-        <div>
-          <label for="extraInfo">Extra Info Required:</label>
-          <input v-model="newExtraInfo" type="text" id="extraInfo" />
-          <button type="button" @click="addExtraInfo">Add Info</button>
-          <ul>
-            <li v-for="(info, index) in newGoal.description.extraInfoRequired" :key="index">
-              {{ info }}
-              <button type="button" @click="removeExtraInfo(index)">
-                Remove
-              </button>
-            </li>
-          </ul>
-        </div>
-        <button type="submit">Add Goal</button>
-      </form>
-    </div>
-  </div>
-</template>
-
 <script setup>
-// ------------------------------------------------------------------------
-// Import Block
-// ------------------------------------------------------------------------
 
-// Importing reactive and ref from Vue for reactivity and references
 import { reactive, ref } from "vue";
 // Importing the useTaskStore function from taskStore to interact with the task store
 import { useGoalStore } from "../stores/goalStore";
 // Importing the useUserStore function from userStore to interact with the user store
 import { useUserStore } from "../stores/user";
 
-// ------------------------------------------------------------------------
-// Store Access Block
-// ------------------------------------------------------------------------
 
-// Use the task store
 const goalStore = useGoalStore();
 // Use the user store
 const userStore = useUserStore();
-const { generateGoalForCurrentUser } = goalStore; // Destructure addTask function from the task store
+const { generateGoalsForCurrentUser } = goalStore; // Destructure addTask function from the task store
 
-// ------------------------------------------------------------------------
-// Reactive Variables Block
-// ------------------------------------------------------------------------
+
 
 // Reactive object for the new task
 const newGoal = reactive({
@@ -83,25 +27,17 @@ const newGoal = reactive({
 const newExtraInfo = ref(""); // Reference for new extra info input
 const goalAdded = ref(false); // Reference for tracking if a task has been added
 
-// ------------------------------------------------------------------------
-// Methods Block
-// ------------------------------------------------------------------------
+
 
 // Function to handle form submission
 const handleSubmit = () => {
   const goalTitle = newGoal.title;
   const goalDescription = JSON.parse(JSON.stringify(newGoal.description)); // // Create a deep copy of the new task description to avoid reactivity issues
-  generateTaskForCurrentUser(goalTitle, goalDescription);
+  generateGoalsForCurrentUser(goalTitle, goalDescription);
   // Use generateTaskForCurrentUser to add the new task for the logged-in user
   goalAdded.value = true;
 };
 
-/*
-  The handleSubmit function handles the form submission process.
-  - It creates a deep copy of the newTask description object to avoid any reactivity issues.
-  - It calls the generateTaskForCurrentUser function from the task store to add the new task for the logged-in user.
-  - It sets taskAdded to true to indicate that a task has been successfully added.
-  */
 
 // Function to add extra info
 const addExtraInfo = () => {
@@ -113,11 +49,6 @@ const addExtraInfo = () => {
 };
 
 /*
-  The addExtraInfo function adds an extra information item to the new task's description.
-  - It checks if the newExtraInfo input value is not empty after trimming whitespace.
-  - If valid, it pushes the trimmed value to the extraInfoRequired array of the new task's description.
-  - It then clears the newExtraInfo input field.
-  */
 
 // Function to remove extra info
 const removeExtraInfo = (index) => {
@@ -158,3 +89,43 @@ const startNewGoal = () => {
   - It sets taskAdded to false to hide the success message and display the form again.
   */
 </script>
+<template>
+  <div>
+    <h1>Add New Goal</h1>
+    <!-- v-if directive to show success message if taskAdded is true, otherwise show the form -->
+    <div v-if="goalAdded">
+      <p>Yay! New goal created.</p>
+      <button @click="startNewGoal">Start a New Goal</button>
+    </div>
+    <div v-else>
+      <form @submit.prevent="handleSubmit">
+        <div>
+          <label for="title">Title:</label>
+          <input v-model="newGoal.title" type="text" id="title" required />
+        </div>
+        <div>
+          <label for="descriptionTitle">Description Title:</label>
+          <input v-model="newGoal.description.title" type="text" id="descriptionTitle" required />
+        </div>
+        <div>
+          <label for="timeToBeCompleted">Time to be Completed:</label>
+          <input v-model="newGoal.description.timeToBeCompleted" type="text" id="timeToBeCompleted" required />
+        </div>
+        <div>
+          <label for="extraInfo">Extra Info Required:</label>
+          <input v-model="newExtraInfo" type="text" id="extraInfo" />
+          <button type="button" @click="addExtraInfo">Add Info</button>
+          <ul>
+            <li v-for="(info, index) in newGoal.description.extraInfoRequired" :key="index">
+              {{ info }}
+              <button type="button" @click="removeExtraInfo(index)">
+                Remove
+              </button>
+            </li>
+          </ul>
+        </div>
+        <button type="submit">Add Goal</button>
+      </form>
+    </div>
+  </div>
+</template>
